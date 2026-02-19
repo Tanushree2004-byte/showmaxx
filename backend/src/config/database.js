@@ -17,7 +17,17 @@ const pool = mysql.createPool({
 
 const initDatabase = async () => {
   try {
+    console.log('Initializing database connection...');
+    console.log('Database config:', {
+      host: process.env.DB_HOST,
+      port: process.env.DB_PORT,
+      user: process.env.DB_USER,
+      database: process.env.DB_NAME,
+      ssl: process.env.DB_SSL
+    });
+    
     const connection = await pool.getConnection();
+    console.log('Database connection established successfully!');
     
     // Create users table if not exists
     const createTableQuery = `
@@ -36,8 +46,16 @@ const initDatabase = async () => {
     console.log('✅ Users table created or already exists');
     
     connection.release();
+    console.log('Database initialization completed successfully');
   } catch (error) {
     console.error('❌ Database initialization error:', error);
+    console.error('Database error details:', {
+      message: error.message,
+      code: error.code,
+      errno: error.errno,
+      sqlState: error.sqlState,
+      sqlMessage: error.sqlMessage
+    });
     throw error;
   }
 };

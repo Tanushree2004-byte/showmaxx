@@ -64,30 +64,40 @@ router.post('/signup', async (req, res) => {
 router.post('/login', async (req, res) => {
   try {
     const { username, password } = req.body;
+    
+    console.log('Login attempt for username:', username);
 
     // Find user
     const user = await findUserByUsername(username);
     if (!user) {
+      console.log('User not found:', username);
       return res.status(401).json({
         success: false,
         message: 'Invalid credentials'
       });
     }
 
+    console.log('User found:', { id: user.id, username: user.username });
+
     // Compare password
     const isValidPassword = await comparePassword(password, user.password);
     if (!isValidPassword) {
+      console.log('Invalid password for user:', username);
       return res.status(401).json({
         success: false,
         message: 'Invalid credentials'
       });
     }
+
+    console.log('Password validated for user:', username);
 
     // Generate JWT token
     const token = generateToken({
       id: user.id,
       username: user.username
     });
+
+    console.log('Token generated for user:', username);
 
     res.json({
       success: true,
@@ -103,6 +113,7 @@ router.post('/login', async (req, res) => {
     });
   } catch (error) {
     console.error('Login error:', error);
+    console.error('Error stack:', error.stack);
     res.status(500).json({
       success: false,
       message: 'Internal server error during login'

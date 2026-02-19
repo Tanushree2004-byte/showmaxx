@@ -23,13 +23,24 @@ const verifyToken = (token) => {
 
 const findUserByUsername = async (username) => {
   try {
+    console.log('Finding user by username:', username);
     const [rows] = await pool.execute(
       'SELECT * FROM users WHERE username = ?',
       [username]
     );
-    return rows[0] || null;
+    console.log('Query result rows count:', rows.length);
+    const user = rows[0] || null;
+    if (user) {
+      console.log('User found in database:', { id: user.id, username: user.username });
+    }
+    return user;
   } catch (error) {
     console.error('Error finding user by username:', error);
+    console.error('Database connection error details:', {
+      message: error.message,
+      code: error.code,
+      errno: error.errno
+    });
     throw error;
   }
 };
