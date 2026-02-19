@@ -5,8 +5,8 @@ export const mockMovies = {
       id: 1,
       title: "The Matrix Resurrections",
       overview: "Return to a world of two realities: one, everyday life; the other, what lies behind it.",
-      backdrop_path: "/rGfghNzYvC9F9m5g5u2JkP2.jpg",
-      poster_path: "/gB6pmlv1LjTm4wq8J3B2t.jpg",
+      backdrop_path: "/cdXBVd458R9j14N75VqXt1uGx48.jpg",
+      poster_path: "/8kV5GLs1UfSqNsP6JYcLOiLSCnF.jpg",
       vote_average: 8.5,
       release_date: "2021-12-22"
     },
@@ -14,7 +14,7 @@ export const mockMovies = {
       id: 2,
       title: "Dune: Part Two",
       overview: "Paul Atreides unites with Chani and the Fremen while seeking revenge against the conspirators who destroyed his family.",
-      backdrop_path: "/3bh1j5QsJjTm5yXkM47L.jpg",
+      backdrop_path: "/1pdfLvkbXjL5eGS4X0i5fF.jpg",
       poster_path: "/1pdfLvkbXjL5eGS4X0i5fF.jpg",
       vote_average: 9.0,
       release_date: "2024-03-01"
