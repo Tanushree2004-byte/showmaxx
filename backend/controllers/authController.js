@@ -50,6 +50,7 @@ const signup = async (req, res) => {
     const token = generateToken(user.id, user.username);
 
     res.status(201).json({
+      success: true,
       message: 'User created successfully',
       user: {
         id: user.id,
@@ -98,6 +99,7 @@ const login = async (req, res) => {
     const token = generateToken(user.id, user.username);
 
     res.json({
+      success: true,
       message: 'Login successful',
       user: {
         id: user.id,
