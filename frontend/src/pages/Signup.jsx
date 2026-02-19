@@ -70,14 +70,17 @@ const Signup = () => {
     if (!validateForm()) return;
     
     setLoading(true);
+    setErrors({});
     
     try {
+      // Use environment variable for API URL or fallback to localhost
+      const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5001';
       const { confirmPassword, ...signupData } = formData;
-      console.log('Attempting signup with:', signupData);
-      const response = await axios.post('http://localhost:5001/api/auth/signup', signupData);
-      console.log('Signup response:', response.data);
+      const response = await axios.post(`${API_URL}/api/auth/signup`, signupData);
       
       if (response.data.success) {
+        // Show success message and redirect to login
+        alert('Account created successfully! Please login.');
         navigate('/login');
       } else {
         setErrors({ 
@@ -86,9 +89,24 @@ const Signup = () => {
       }
     } catch (error) {
       console.error('Signup error:', error);
-      setErrors({ 
-        general: error.response?.data?.message || 'Signup failed. Please try again.' 
-      });
+      
+      // Handle different types of errors
+      if (error.response) {
+        // Server responded with error status
+        setErrors({ 
+          general: error.response.data.message || 'Signup failed. Please try again.' 
+        });
+      } else if (error.request) {
+        // Network error - server not reachable
+        setErrors({ 
+          general: 'Unable to connect to server. Please check your internet connection.' 
+        });
+      } else {
+        // Other error
+        setErrors({ 
+          general: 'Signup failed. Please try again.' 
+        });
+      }
     } finally {
       setLoading(false);
     }

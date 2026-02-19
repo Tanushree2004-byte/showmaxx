@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import BackgroundCarousel from '../components/BackgroundCarousel';
 import axios from 'axios';
+import { useNavigate, Link } from 'react-router-dom';
+import BackgroundCarousel from '../components/BackgroundCarousel';
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -42,15 +42,19 @@ const Login = () => {
     if (!validateForm()) return;
     
     setLoading(true);
+    setErrors({});
     
     try {
-      console.log('Attempting login with:', formData);
-      const response = await axios.post('http://localhost:5001/api/auth/login', formData);
-      console.log('Login response:', response.data);
+      // Use environment variable for API URL or fallback to localhost
+      const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5001';
+      const response = await axios.post(`${API_URL}/api/auth/login`, formData);
       
       if (response.data.success) {
+        // Store authentication data
         localStorage.setItem('token', response.data.token);
         localStorage.setItem('user', JSON.stringify(response.data.user));
+        
+        // Navigate to dashboard
         navigate('/dashboard');
       } else {
         setErrors({ 
@@ -59,9 +63,24 @@ const Login = () => {
       }
     } catch (error) {
       console.error('Login error:', error);
-      setErrors({ 
-        general: error.response?.data?.message || 'Login failed. Please try again.' 
-      });
+      
+      // Handle different types of errors
+      if (error.response) {
+        // Server responded with error status
+        setErrors({ 
+          general: error.response.data.message || 'Invalid credentials. Please try again.' 
+        });
+      } else if (error.request) {
+        // Network error - server not reachable
+        setErrors({ 
+          general: 'Unable to connect to server. Please check your internet connection.' 
+        });
+      } else {
+        // Other error
+        setErrors({ 
+          general: 'Login failed. Please try again.' 
+        });
+      }
     } finally {
       setLoading(false);
     }
