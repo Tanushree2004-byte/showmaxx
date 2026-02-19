@@ -16,7 +16,9 @@ initDatabase().catch(console.error);
 // Security middleware
 app.use(helmet());
 app.use(cors({
-  origin: ['http://localhost:3000', 'http://127.0.0.1:3000'],
+  origin: process.env.NODE_ENV === 'production' 
+    ? true 
+    : ['http://localhost:3000', 'http://127.0.0.1:3000'],
   credentials: true
 }));
 
@@ -67,10 +69,12 @@ app.use((error, req, res, next) => {
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
-  console.log(`🎬 Showmaxx API Server running on port ${PORT}`);
-  console.log(`🌍 Environment: ${process.env.NODE_ENV}`);
-  console.log(`� Health check: http://localhost:${PORT}/api/health`);
-});
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(PORT, () => {
+    console.log(`🎬 Showmaxx API Server running on port ${PORT}`);
+    console.log(`🌍 Environment: ${process.env.NODE_ENV}`);
+    console.log(`� Health check: http://localhost:${PORT}/api/health`);
+  });
+}
 
 module.exports = app;
