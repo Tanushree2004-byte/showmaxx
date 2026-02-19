@@ -1,8 +1,9 @@
 import axios from 'axios';
+import { mockMovies } from './mockData';
 
-const API_BASE_URL = process.env.REACT_APP_TMDB_BASE_URL || 'https://api.themoviedb.org/3';
-const API_KEY = process.env.REACT_APP_TMDB_API_KEY;
-const IMAGE_BASE_URL = process.env.REACT_APP_TMDB_IMAGE_BASE_URL || 'https://image.tmdb.org/t/p/original';
+const API_BASE_URL = 'https://api.themoviedb.org/3';
+const API_KEY = '59ea93365559975d63240276c2a0d4e';
+const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/original';
 
 export const tmdbApi = {
   // Get trending movies for the week
@@ -16,8 +17,8 @@ export const tmdbApi = {
       });
       return response.data.results;
     } catch (error) {
-      console.error('Error fetching trending movies:', error);
-      throw error;
+      console.error('Error fetching trending movies, using mock data:', error);
+      return mockMovies.trending;
     }
   },
 
@@ -33,8 +34,8 @@ export const tmdbApi = {
       });
       return response.data.results;
     } catch (error) {
-      console.error('Error fetching top rated movies:', error);
-      throw error;
+      console.error('Error fetching top rated movies, using mock data:', error);
+      return mockMovies.topRated;
     }
   },
 
@@ -52,8 +53,8 @@ export const tmdbApi = {
       });
       return response.data.results;
     } catch (error) {
-      console.error('Error fetching action movies:', error);
-      throw error;
+      console.error('Error fetching action movies, using mock data:', error);
+      return mockMovies.action;
     }
   },
 
@@ -71,8 +72,8 @@ export const tmdbApi = {
       });
       return response.data.results;
     } catch (error) {
-      console.error('Error fetching comedy movies:', error);
-      throw error;
+      console.error('Error fetching comedy movies, using mock data:', error);
+      return mockMovies.comedy;
     }
   },
 
