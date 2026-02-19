@@ -73,7 +73,9 @@ const Signup = () => {
     
     try {
       const { confirmPassword, ...signupData } = formData;
+      console.log('Attempting signup with:', signupData);
       const response = await axios.post('http://localhost:5001/api/auth/signup', signupData);
+      console.log('Signup response:', response.data);
       
       if (response.data.success) {
         navigate('/login');
@@ -83,6 +85,7 @@ const Signup = () => {
         });
       }
     } catch (error) {
+      console.error('Signup error:', error);
       setErrors({ 
         general: error.response?.data?.message || 'Signup failed. Please try again.' 
       });

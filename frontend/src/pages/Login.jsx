@@ -44,7 +44,9 @@ const Login = () => {
     setLoading(true);
     
     try {
+      console.log('Attempting login with:', formData);
       const response = await axios.post('http://localhost:5001/api/auth/login', formData);
+      console.log('Login response:', response.data);
       
       if (response.data.success) {
         localStorage.setItem('token', response.data.token);
@@ -56,6 +58,7 @@ const Login = () => {
         });
       }
     } catch (error) {
+      console.error('Login error:', error);
       setErrors({ 
         general: error.response?.data?.message || 'Login failed. Please try again.' 
       });
