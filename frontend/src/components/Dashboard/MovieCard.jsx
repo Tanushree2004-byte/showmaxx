@@ -1,5 +1,4 @@
 import React from 'react';
-import tmdbApi from '../../services/tmdbApi';
 import { formatDate, formatRating, truncateText } from '../../utils/helpers';
 
 const MovieCard = ({ movie }) => {
