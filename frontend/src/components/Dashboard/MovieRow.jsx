@@ -51,8 +51,8 @@ const MovieRow = ({ title, fetchFunction, movies: propMovies }) => {
       <div className="py-8">
         <h2 className="text-2xl font-bold text-white mb-6 px-6">{title}</h2>
         <div className="flex gap-4 px-6">
-          {[1, 2, 3, 4, 5, 6].map((i) => (
-            <div key={i} className="w-[200px] h-[300px] bg-gray-800 rounded-xl animate-pulse"></div>
+          {movies.map((movie) => (
+            <MovieCard key={movie.id} movie={movie} />
           ))}
         </div>
       </div>
@@ -61,39 +61,41 @@ const MovieRow = ({ title, fetchFunction, movies: propMovies }) => {
 
   return (
     <div className="py-8">
-      <div className="flex items-center justify-between px-6 mb-6">
-        <h2 className="text-2xl font-bold text-white">{title}</h2>
-        <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          <button
-            onClick={() => scroll('left')}
-            className="glass-button p-2 rounded-full transition-all duration-300 transform hover:scale-110"
-            aria-label="Scroll left"
-          >
-            <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-          </button>
-          <button
-            onClick={() => scroll('right')}
-            className="glass-button p-2 rounded-full transition-all duration-300 transform hover:scale-110"
-            aria-label="Scroll right"
-          >
-            <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-          </button>
-        </div>
-      </div>
+      <h2 className="text-2xl font-bold text-white mb-6 px-6">{title}</h2>
       
-      <div
+      {/* Scroll Buttons */}
+      <div className="flex justify-between items-center px-6 mb-4">
+        <button
+          onClick={() => scroll('left')}
+          className="glass-button p-2 rounded-full transition-all duration-300"
+        >
+          <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 5 5 0 11-14 0 7 7 0 014 0z" />
+          </svg>
+        </button>
+        
+        <div className="text-white text-lg font-semibold">{title}</div>
+        
+        <button
+          onClick={() => scroll('right')}
+          className="glass-button p-2 rounded-full transition-all duration-300"
+        >
+          <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-5 5 5 0 11-14 0 7 7 0z" />
+          </svg>
+        </button>
+      </div>
+
+      {/* Movie Container */}
+      <div 
         ref={scrollContainerRef}
-        className="flex gap-4 px-6 overflow-x-auto scrollbar-hide scroll-smooth"
-        onWheel={handleWheel}
+        className="flex gap-6 overflow-x-auto scrollbar-hide px-6 pb-4"
         style={{
           scrollbarWidth: 'none',
           msOverflowStyle: 'none',
-          WebkitScrollbar: 'none'
+          WebkitOverflowScrolling: 'touch'
         }}
+        onWheel={handleWheel}
       >
         {movies.map((movie) => (
           <MovieCard key={movie.id} movie={movie} />
