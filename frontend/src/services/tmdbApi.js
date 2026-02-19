@@ -2,7 +2,7 @@ import axios from 'axios';
 import { mockMovies } from './mockData';
 
 const API_BASE_URL = 'https://api.themoviedb.org/3';
-const API_KEY = '59ea93365559975d63240276c2a0d4e';
+const API_KEY = '59ea933655599758d63240276c2a0d4e';
 const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/original';
 
 export const tmdbApi = {
