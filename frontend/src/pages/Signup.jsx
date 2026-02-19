@@ -77,8 +77,8 @@ const Signup = () => {
     setErrors({});
     
     try {
-      // Use environment variable for API URL or fallback to localhost
-      const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5001';
+      // Use environment variable for API URL
+      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
       
       // Ensure proper request format
       const requestData = {
@@ -89,7 +89,11 @@ const Signup = () => {
         password: formData.password.trim()
       };
       
-      const response = await axios.post(`${API_URL}/api/auth/signup`, requestData);
+      const response = await axios.post(`${API_URL}/api/auth/signup`, requestData, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
       
       if (response.data.success) {
         // Show success message and redirect to login

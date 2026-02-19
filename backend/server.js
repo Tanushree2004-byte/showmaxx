@@ -19,9 +19,7 @@ initDatabase().catch(console.error);
 // Security middleware
 app.use(helmet());
 app.use(cors({
-  origin: process.env.NODE_ENV === 'production' 
-    ? true 
-    : ['http://localhost:3000', 'http://127.0.0.1:3000'],
+  origin: ["http://localhost:3000", "http://localhost:5173", "https://showmaxx-j3g9.vercel.app"],
   credentials: true
 }));
 
@@ -103,14 +101,19 @@ app.use((error, req, res, next) => {
   });
 });
 
-const PORT = process.env.PORT || 5001;
+const PORT = process.env.PORT || 5000;
 
 if (process.env.NODE_ENV !== 'production') {
   app.listen(PORT, () => {
     console.log(`🎬 Showmaxx API Server running on port ${PORT}`);
     console.log(`🌍 Environment: ${process.env.NODE_ENV}`);
-    console.log(`� Health check: http://localhost:${PORT}/api/health`);
+    console.log(` Health check: http://localhost:${PORT}/api/health`);
   });
 }
+
+// Root endpoint
+app.get("/", (req, res) => {
+  res.send("Server running");
+});
 
 module.exports = app;

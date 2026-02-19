@@ -49,16 +49,18 @@ const Login = () => {
     setErrors({});
     
     try {
-      // Use environment variable for API URL or fallback to localhost
-      const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5001';
-      
-      // Ensure proper request format
+      // Use environment variable for API URL
+      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
       const requestData = {
         username: formData.username.trim(),
         password: formData.password.trim()
       };
       
-      const response = await axios.post(`${API_URL}/api/auth/login`, requestData);
+      const response = await axios.post(`${API_URL}/api/auth/login`, requestData, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
       
       if (response.data.success) {
         // Store authentication data

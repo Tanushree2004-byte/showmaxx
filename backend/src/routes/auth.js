@@ -105,9 +105,9 @@ router.post('/login', async (req, res) => {
     const user = await findUserByUsername(username);
     if (!user) {
       console.log('User not found:', username);
-      return res.status(401).json({
+      return res.status(404).json({
         success: false,
-        message: 'Invalid credentials'
+        message: 'User not found'
       });
     }
 
@@ -119,7 +119,7 @@ router.post('/login', async (req, res) => {
       console.log('Invalid password for user:', username);
       return res.status(401).json({
         success: false,
-        message: 'Invalid credentials'
+        message: 'Invalid password'
       });
     }
 
@@ -148,9 +148,9 @@ router.post('/login', async (req, res) => {
   } catch (error) {
     console.error('Login error:', error);
     console.error('Error stack:', error.stack);
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
-      message: 'Internal server error during login'
+      message: 'Server error'
     });
   }
 });
