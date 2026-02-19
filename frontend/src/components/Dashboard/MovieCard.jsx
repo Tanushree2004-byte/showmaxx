@@ -11,7 +11,7 @@ const MovieCard = ({ movie }) => {
   return (
     <div className="group relative flex-none cursor-pointer transition-all duration-300 ease-in-out transform hover:scale-105">
       {/* Movie Poster */}
-      <div className="relative overflow-hidden rounded-xl">
+      <div className="relative overflow-hidden rounded-xl w-[200px] h-[300px]">
         <img
           src={posterUrl}
           alt={movie.title}
