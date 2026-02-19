@@ -3,7 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
-const { initDatabase } = require('./src/config/database');
+const { initDatabase, pool } = require('./src/config/database');
 
 // Import routes
 const authRoutes = require('./src/routes/auth');
@@ -41,13 +41,37 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api/auth', authRoutes);
 
 // Health check endpoint
-app.get('/api/health', (req, res) => {
-  res.json({
-    success: true,
-    message: 'Showmaxx API is running',
-    timestamp: new Date().toISOString(),
-    environment: process.env.NODE_ENV
-  });
+app.get('/api/health', async (req, res) => {
+  try {
+    // Test database connection
+    const connection = await pool.getConnection();
+    await connection.execute('SELECT 1');
+    connection.release();
+    
+    res.json({
+      success: true,
+      message: 'Showmaxx API is running',
+      timestamp: new Date().toISOString(),
+      environment: process.env.NODE_ENV,
+      database: 'connected',
+      db_config: {
+        host: process.env.DB_HOST,
+        port: process.env.DB_PORT,
+        database: process.env.DB_NAME,
+        user: process.env.DB_USER
+      }
+    });
+  } catch (error) {
+    console.error('Health check database error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Database connection failed',
+      timestamp: new Date().toISOString(),
+      environment: process.env.NODE_ENV,
+      database: 'disconnected',
+      error: error.message
+    });
+  }
 });
 
 // 404 handler
