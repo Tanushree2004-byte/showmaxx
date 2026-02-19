@@ -10,9 +10,6 @@ const Dashboard = () => {
   const navigate = useNavigate();
   
   const [trendingMovies, setTrendingMovies] = useState([]);
-  const [topRatedMovies, setTopRatedMovies] = useState([]);
-  const [actionMovies, setActionMovies] = useState([]);
-  const [comedyMovies, setComedyMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -23,7 +20,7 @@ const Dashboard = () => {
 
     const fetchAllMovies = async () => {
       try {
-        const [trending, topRated, action, comedy] = await Promise.all([
+        const [trending] = await Promise.all([
           tmdbApi.getTrending(),
           tmdbApi.getTopRated(),
           tmdbApi.getActionMovies(),
@@ -31,9 +28,6 @@ const Dashboard = () => {
         ]);
 
         setTrendingMovies(trending);
-        setTopRatedMovies(topRated);
-        setActionMovies(action);
-        setComedyMovies(comedy);
         setIsLoading(false);
       } catch (error) {
         console.error('Failed to fetch movies:', error);

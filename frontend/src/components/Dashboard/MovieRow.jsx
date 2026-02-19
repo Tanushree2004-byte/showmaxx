@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-import tmdbApi from '../../services/tmdbApi';
 import MovieCard from './MovieCard';
 
 const MovieRow = ({ title, fetchFunction, movies: propMovies }) => {

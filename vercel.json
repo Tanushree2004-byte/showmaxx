@@ -5,7 +5,9 @@
       "src": "frontend/package.json",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "build"
+        "distDir": "build",
+        "buildCommand": "cd frontend && npm run build",
+        "installCommand": "cd frontend && npm install"
       }
     },
     {
@@ -24,6 +26,8 @@
     }
   ],
   "env": {
-    "NODE_ENV": "production"
+    "NODE_ENV": "production",
+    "ESLINT_NO_DEV_ERRORS": "true",
+    "GENERATE_SOURCEMAP": "false"
   }
 }

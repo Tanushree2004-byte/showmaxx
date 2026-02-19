@@ -1,7 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import AuthGuard from './components/AuthGuard';
-import Navbar from './components/Navbar';
 import Intro from './pages/Intro';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
