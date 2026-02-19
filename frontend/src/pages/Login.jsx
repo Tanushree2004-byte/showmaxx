@@ -26,7 +26,7 @@ const Login = () => {
       newErrors.username = 'Username is required';
     }
     
-    if (!formData.password) {
+    if (!formData.password.trim()) {
       newErrors.password = 'Password is required';
     } else if (formData.password.length < 6) {
       newErrors.password = 'Password must be at least 6 characters';
@@ -47,7 +47,14 @@ const Login = () => {
     try {
       // Use environment variable for API URL or fallback to localhost
       const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5001';
-      const response = await axios.post(`${API_URL}/api/auth/login`, formData);
+      
+      // Ensure proper request format
+      const requestData = {
+        username: formData.username.trim(),
+        password: formData.password.trim()
+      };
+      
+      const response = await axios.post(`${API_URL}/api/auth/login`, requestData);
       
       if (response.data.success) {
         // Store authentication data
@@ -64,12 +71,32 @@ const Login = () => {
     } catch (error) {
       console.error('Login error:', error);
       
-      // Handle different types of errors
+      // Handle different types of errors with proper status codes
       if (error.response) {
-        // Server responded with error status
-        setErrors({ 
-          general: error.response.data.message || 'Invalid credentials. Please try again.' 
-        });
+        const status = error.response.status;
+        const message = error.response.data.message;
+        
+        if (status === 400) {
+          setErrors({ 
+            general: message || 'Invalid input. Please check your credentials.' 
+          });
+        } else if (status === 401) {
+          setErrors({ 
+            general: message || 'Invalid username or password.' 
+          });
+        } else if (status === 409) {
+          setErrors({ 
+            general: message || 'Account conflict. Please contact support.' 
+          });
+        } else if (status === 500) {
+          setErrors({ 
+            general: 'Server error. Please try again later.' 
+          });
+        } else {
+          setErrors({ 
+            general: message || 'Login failed. Please try again.' 
+          });
+        }
       } else if (error.request) {
         // Network error - server not reachable
         setErrors({ 

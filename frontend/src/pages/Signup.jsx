@@ -75,8 +75,17 @@ const Signup = () => {
     try {
       // Use environment variable for API URL or fallback to localhost
       const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5001';
-      const { confirmPassword, ...signupData } = formData;
-      const response = await axios.post(`${API_URL}/api/auth/signup`, signupData);
+      
+      // Ensure proper request format
+      const requestData = {
+        username: formData.username.trim(),
+        email: formData.email.trim(),
+        phone: formData.phone.trim(),
+        gender: formData.gender,
+        password: formData.password.trim()
+      };
+      
+      const response = await axios.post(`${API_URL}/api/auth/signup`, requestData);
       
       if (response.data.success) {
         // Show success message and redirect to login
@@ -90,12 +99,28 @@ const Signup = () => {
     } catch (error) {
       console.error('Signup error:', error);
       
-      // Handle different types of errors
+      // Handle different types of errors with proper status codes
       if (error.response) {
-        // Server responded with error status
-        setErrors({ 
-          general: error.response.data.message || 'Signup failed. Please try again.' 
-        });
+        const status = error.response.status;
+        const message = error.response.data.message;
+        
+        if (status === 400) {
+          setErrors({ 
+            general: message || 'Invalid input. Please check all fields.' 
+          });
+        } else if (status === 409) {
+          setErrors({ 
+            general: message || 'User already exists. Please try different credentials.' 
+          });
+        } else if (status === 500) {
+          setErrors({ 
+            general: 'Server error. Please try again later.' 
+          });
+        } else {
+          setErrors({ 
+            general: message || 'Signup failed. Please try again.' 
+          });
+        }
       } else if (error.request) {
         // Network error - server not reachable
         setErrors({ 
@@ -167,12 +192,19 @@ const Signup = () => {
                 name="gender"
                 value={formData.gender}
                 onChange={handleChange}
-                className="bg-[#181818] text-white w-full text-lg px-4 py-3 rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-[#E50914] transition-all duration-300"
+                className="input-glass w-full text-lg appearance-none cursor-pointer"
+                style={{
+                  backgroundImage: `url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e")`,
+                  backgroundRepeat: 'no-repeat',
+                  backgroundPosition: 'right 12px center',
+                  backgroundSize: '20px',
+                  paddingRight: '40px'
+                }}
               >
-                <option value="" className="bg-[#181818] text-white">Select Gender</option>
-                <option value="male" className="bg-[#181818] text-white">Male</option>
-                <option value="female" className="bg-[#181818] text-white">Female</option>
-                <option value="other" className="bg-[#181818] text-white">Other</option>
+                <option value="" className="bg-gray-800 text-white">Select Gender</option>
+                <option value="male" className="bg-gray-800 text-white">Male</option>
+                <option value="female" className="bg-gray-800 text-white">Female</option>
+                <option value="other" className="bg-gray-800 text-white">Other</option>
               </select>
               {errors.gender && <p className="error-text">{errors.gender}</p>}
             </div>
