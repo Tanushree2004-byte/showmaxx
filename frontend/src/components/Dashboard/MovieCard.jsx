@@ -3,7 +3,9 @@ import tmdbApi from '../../services/tmdbApi';
 import { formatDate, formatRating, truncateText } from '../../utils/helpers';
 
 const MovieCard = ({ movie }) => {
-  const posterUrl = tmdbApi.getImageUrl(movie.poster_path);
+  const posterUrl = movie.poster_path 
+    ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+    : 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=500&h=750&fit=crop';
   const rating = formatRating(movie.vote_average);
   const year = formatDate(movie.release_date);
 
@@ -14,7 +16,7 @@ const MovieCard = ({ movie }) => {
         <img
           src={posterUrl}
           alt={movie.title}
-          className="w-[200px] h-[300px] object-cover transition-all duration-300 group-hover:brightness-110"
+          className="w-full h-full object-cover transition-all duration-300 group-hover:brightness-110"
           loading="lazy"
         />
         

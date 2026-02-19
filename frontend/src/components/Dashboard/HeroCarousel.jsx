@@ -33,6 +33,11 @@ const HeroCarousel = () => {
 
   const currentMovie = trendingMovies[currentIndex];
 
+  const getBackdropUrl = (backdropPath) => {
+    if (!backdropPath) return 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=1280&h=720&fit=crop';
+    return `https://image.tmdb.org/t/p/original${backdropPath}`;
+  };
+
   if (isLoading) {
     return (
       <div className="relative w-full h-[80vh] bg-gray-900 flex items-center justify-center">
@@ -54,9 +59,10 @@ const HeroCarousel = () => {
       {/* Background Image */}
       <div className="absolute inset-0">
         <img
-          src={tmdbApi.getImageUrl(currentMovie.backdrop_path)}
+          src={getBackdropUrl(currentMovie.backdrop_path)}
           alt={currentMovie.title}
           className="w-full h-full object-cover"
+          loading="lazy"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-black via-black/70 to-transparent"></div>
       </div>

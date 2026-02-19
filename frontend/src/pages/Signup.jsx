@@ -142,12 +142,12 @@ const Signup = () => {
                 name="gender"
                 value={formData.gender}
                 onChange={handleChange}
-                className="input-glass w-full text-lg"
+                className="bg-[#181818] text-white w-full text-lg px-4 py-3 rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-[#E50914] transition-all duration-300"
               >
-                <option value="">Select Gender</option>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-                <option value="other">Other</option>
+                <option value="" className="bg-[#181818] text-white">Select Gender</option>
+                <option value="male" className="bg-[#181818] text-white">Male</option>
+                <option value="female" className="bg-[#181818] text-white">Female</option>
+                <option value="other" className="bg-[#181818] text-white">Other</option>
               </select>
               {errors.gender && <p className="error-text">{errors.gender}</p>}
             </div>
