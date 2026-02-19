@@ -10,6 +10,9 @@ const authRoutes = require('./src/routes/auth');
 
 const app = express();
 
+// Trust proxy for Vercel
+app.set('trust proxy', true);
+
 // Initialize database
 initDatabase().catch(console.error);
 
