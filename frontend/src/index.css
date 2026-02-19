@@ -1,0 +1,96 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    font-family: 'Inter', sans-serif;
+    background-color: #0f0f0f;
+    overflow-x: hidden;
+  }
+}
+
+@layer components {
+  .glass-card {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 24px;
+    box-shadow: 0 8px 32px 0 rgba(229, 9, 20, 0.1);
+  }
+
+  .glass-button {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    transition: all 0.3s ease;
+  }
+
+  .glass-button:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+  }
+
+  .primary-button {
+    background: #E50914;
+    color: white;
+    font-weight: 600;
+    padding: 14px 28px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(229, 9, 20, 0.3);
+  }
+
+  .primary-button:hover {
+    background: #f40612;
+    box-shadow: 0 6px 25px rgba(229, 9, 20, 0.5);
+    transform: translateY(-2px);
+  }
+
+  .cinematic-overlay {
+    background: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.3) 0%,
+      rgba(0, 0, 0, 0.6) 50%,
+      rgba(0, 0, 0, 0.8) 100%
+    );
+  }
+
+  .carousel-image {
+    filter: blur(3px);
+    transform: scale(1.1);
+  }
+
+  .text-glow {
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.3), 0 0 40px rgba(229, 9, 20, 0.2);
+  }
+
+  .input-glass {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+    color: white;
+    padding: 12px 16px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+  }
+
+  .input-glass:focus {
+    outline: none;
+    border-color: #E50914;
+    box-shadow: 0 0 10px rgba(229, 9, 20, 0.3);
+  }
+
+  .input-glass::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .error-text {
+    color: #ff4444;
+    font-size: 14px;
+    margin-top: 4px;
+  }
+}
