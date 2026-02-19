@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import BackgroundCarousel from '../components/BackgroundCarousel';
 import axios from 'axios';
+import { useNavigate, Link } from 'react-router-dom';
+import BackgroundCarousel from '../components/BackgroundCarousel';
+
+// Configure axios defaults
+axios.defaults.headers.post['Content-Type'] = 'application/json';
+axios.defaults.headers.common['Content-Type'] = 'application/json';
 
 const Signup = () => {
   const [formData, setFormData] = useState({

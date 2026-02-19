@@ -3,6 +3,10 @@ import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 import BackgroundCarousel from '../components/BackgroundCarousel';
 
+// Configure axios defaults
+axios.defaults.headers.post['Content-Type'] = 'application/json';
+axios.defaults.headers.common['Content-Type'] = 'application/json';
+
 const Login = () => {
   const [formData, setFormData] = useState({
     username: '',
